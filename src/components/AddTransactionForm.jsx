@@ -43,7 +43,7 @@ export default function AddTransactionIncome({setTransaction}){
         },
       });
     return <div>
-                <div className="modal fade" id="income" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className="modal fade" id="exampleModal1" aria-labelledby="exampleModalLabel" aria-hidden="true" tabIndex={"-1"}>
                     <div className="modal-dialog">
                         <div className="modal-content">
                             <div className="modal-header">

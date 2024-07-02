@@ -1,3 +1,4 @@
+import AddTransactionIncome from "./AddTransactionForm";
 export default function Expense({ total }) {
   return (
     <div className="expense container-fluid my-5">
@@ -9,8 +10,7 @@ export default function Expense({ total }) {
             type="button"
             className="btn btn-outline-primary w-100"
             data-bs-toggle="modal"
-            data-bs-target="#income"
-            data-bs-whatever="@mdo"
+            data-bs-target="#exampleModal1"
           >
             Add Income
           </button>
@@ -30,8 +30,7 @@ export default function Expense({ total }) {
             type="button"
             className="btn btn-outline-primary w-100"
             data-bs-toggle="modal"
-            data-bs-target="#expense"
-            data-bs-whatever="@mdo"
+            data-bs-target="#exampleModal2"
           >
             Add Expenses
           </button>

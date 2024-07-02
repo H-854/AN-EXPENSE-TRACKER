@@ -1,19 +1,51 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
-export default function Transaction({transaction,setTransaction}) {
 
+export default function Transaction({ transaction, setTransaction }) {
+  const [filtered, setFiltered] = useState(transaction);
+  const [search, setSearch] = useState("");
+  const [selected,setSelected] = useState("all")
+  const [check,setChecked]=useState(false)
+  useEffect(() => {
+    setFiltered(transaction);
+  }, [transaction]);
 
+  useEffect(() => {
+    setFiltered(transaction.filter((el) =>
+      el.name.toLowerCase().includes(search.toLowerCase())
+    ));
+  }, [search, transaction]);
+
+  // useEffect(()=>{
+  //   console.log(selected);
+  //   if(selected==="all"){
+  //     setFiltered(transaction)
+  //   }else if(selected==="income" || selected==="expense"){
+  //     setFiltered(transaction.filter((el)=>
+  //       el.transactionType.toLowerCase().includes(selected.toLowerCase())
+  //     ))
+  //   }
+  // },[selected,transaction])
+
+  function handleSearchEvent(event) {
+    setSearch(event.target.value);
+  }
+
+  function handleClick(event){
+    setSelected(event.target.value)
+  }
   return (
     <div className="transactions my-5">
-      <div className="search container-fluid ">
+      <div className="search container-fluid">
         <input
           type="text"
           placeholder="Search By Name"
           className="form-control w-50"
+          value={search}
+          onChange={handleSearchEvent}
         />
       </div>
       <div>
-        <div className="headerTransactions my-5 p-3 container-fluid ">
+        <div className="headerTransactions my-5 p-3 container-fluid">
           <h4 className="ms-5">My Transactions</h4>
           <button className="btn btn-outline-primary ms-auto mx-4 w-25">
             Export to CSV
@@ -29,12 +61,11 @@ export default function Transaction({transaction,setTransaction}) {
             type="radio"
             className="btn-check w-25"
             name="btnradio"
-            id="btnradio1"
+            id="all"
+            value="all"
+            onClick={handleClick}
           />
-          <label
-            className="btn btn-outline-primary"
-            htmlFor="btnradio1"
-          >
+          <label className="btn btn-outline-primary" htmlFor="all">
             All
           </label>
 
@@ -42,12 +73,11 @@ export default function Transaction({transaction,setTransaction}) {
             type="radio"
             className="btn-check w-25"
             name="btnradio"
-            id="btnradio2"
+            id="income"
+            value="income"
+            onClick={handleClick}
           />
-          <label
-            className="btn btn-outline-primary"
-            htmlFor="btnradio2"
-          >
+          <label className="btn btn-outline-primary" htmlFor="income">
             Income
           </label>
 
@@ -55,12 +85,11 @@ export default function Transaction({transaction,setTransaction}) {
             type="radio"
             className="btn-check w-25"
             name="btnradio"
-            id="btnradio3"
+            id="expense"
+            value="expense"
+            onClick={handleClick}
           />
-          <label
-            className="btn btn-outline-primary"
-            htmlFor="btnradio3"
-          >
+          <label className="btn btn-outline-primary" htmlFor="expense">
             Expense
           </label>
         </div>
@@ -76,19 +105,15 @@ export default function Transaction({transaction,setTransaction}) {
               </tr>
             </thead>
             <tbody>
-              {transaction.map((ele) => {
-                if (ele !== undefined) {
-                  return (
-                    <tr key={ele._id}>
-                      <th scope="row">{ele.name}</th>
-                      <td>{ele.transactionType}</td>
-                      <td>{ele.date.slice(0, 10)}</td>
-                      <td>{ele.amount}</td>
-                      <td>{ele.tag}</td>
-                    </tr>
-                  );
-                }
-              })}
+              {filtered.map((ele) => (
+                <tr key={ele._id}>
+                  <th scope="row">{ele.name}</th>
+                  <td>{ele.transactionType}</td>
+                  <td>{ele.date.slice(0, 10)}</td>
+                  <td>{ele.amount}</td>
+                  <td>{ele.tag}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
