@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-
+import axios from "axios"
 export default function Transaction({ transaction, setTransaction }) {
   const [filtered, setFiltered] = useState(transaction);
   const [search, setSearch] = useState("");
   const [selected,setSelected] = useState("all")
-  const [check,setChecked]=useState(false)
+
   useEffect(() => {
     setFiltered(transaction);
   }, [transaction]);
@@ -16,7 +16,6 @@ export default function Transaction({ transaction, setTransaction }) {
   }, [search, transaction]);
 
   // useEffect(()=>{
-  //   console.log(selected);
   //   if(selected==="all"){
   //     setFiltered(transaction)
   //   }else if(selected==="income" || selected==="expense"){
@@ -25,6 +24,7 @@ export default function Transaction({ transaction, setTransaction }) {
   //     ))
   //   }
   // },[selected,transaction])
+
 
   function handleSearchEvent(event) {
     setSearch(event.target.value);
@@ -106,14 +106,15 @@ export default function Transaction({ transaction, setTransaction }) {
             </thead>
             <tbody>
               {filtered.map((ele) => (
-                <tr key={ele._id}>
-                  <th scope="row">{ele.name}</th>
-                  <td>{ele.transactionType}</td>
-                  <td>{ele.date.slice(0, 10)}</td>
-                  <td>{ele.amount}</td>
-                  <td>{ele.tag}</td>
-                </tr>
-              ))}
+                  <tr key={ele._id}>
+                    <th scope="row">{ele.name}</th>
+                    <td>{ele.transactionType}</td>
+                    <td>{ele.date.slice(0, 10)}</td>
+                    <td>{ele.amount}</td>
+                    <td>{ele.tag}</td>
+                  </tr>
+                ))
+              }
             </tbody>
           </table>
         </div>
